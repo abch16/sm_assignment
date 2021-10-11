@@ -1,11 +1,11 @@
 import { FetchToken, Token } from './api/FetchToken';
 import { Posts } from './api/Posts';
 import { PostDTO } from './customTypes/PostDTO';
-import postJson from './data.json';
 
 //nconf = require('nconf');
 //nconf.file('./config.json')
 FetchToken.loadCache();
+getPosts();
 async function getPosts() {
   const meta: Token = {
     client_id: 'ju16a6m81mhid5ue1z3v2g0uh',
@@ -20,13 +20,12 @@ async function getPosts() {
   try {
     const postArr: PostDTO[] = await post.getPosts(autthtoken.sl_token as string, 1);
     const groupedPost = post.getGroupedByMonth(postArr, Posts.MONTH);
-    console.log(postArr);
     const averagePost = post.getAverageStatsByMonth(groupedPost);
-    const totalByWeek = post.getTotalByKeyValue(postJson.data.posts, Posts.WEEK);
+    const totalByWeek = post.getTotalByKeyValue(postArr, Posts.WEEK);
     console.log('Total Posts Split By Week ' + JSON.stringify(totalByWeek));
     console.log('Average Post By Month' + JSON.stringify(averagePost));
   } catch (error) {
     console.log(error.message);
   }
 }
-getPosts();
+

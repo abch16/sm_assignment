@@ -1,0 +1,44 @@
+{
+  "name": "supermetrices_assignment",
+  "version": "1.0.0",
+  "description": "Test",
+  "main": "build/index.js",
+  "type": "module",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "start": "tsc && node --experimental-modules --es-module-specifier-resolution=node build/app.js",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "lint-and-fix": "eslint . --ext .ts --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node12": "^1.0.9",
+    "@types/node": "^16.10.1",
+    "@types/node-fetch": "^3.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "eslint": "^7.32.0",
+    "node-fetch": "^3.0.0",
+    "prettier": "2.4.1",
+    "tslib": "^2.3.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "@types/nconf": "^0.10.1",
+    "common.js": "^1.1.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "esm": "^3.2.25",
+    "moment": "^2.29.1",
+    "nconf": "^0.11.3",
+    "npm-install-peers": "^1.2.2",
+    "ts-node": "^10.2.1"
+  },
+  "files": [
+    "build/**/*.js",
+    "build/**/*.d.ts",
+    "build/index.d.ts"
+  ]
+}

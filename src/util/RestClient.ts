@@ -27,12 +27,11 @@ export class RestClient {
   }
 
   public static createPostRequest(method: string, dataObj: any): RequestInit {
-    const request: RequestInit = {
+    return {
       method: method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dataObj),
     };
-    return request;
   }
 
   public static createGetUrl(url: string, paramsMap: Map<any, any>): string {

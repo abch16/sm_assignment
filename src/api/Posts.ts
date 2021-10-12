@@ -85,7 +85,7 @@ export class Posts {
     return Object.keys(data).map(key => {
       return {
         user: key,
-        averagePosts: (data[key].length / monthcount).toFixed(),
+        averagePosts: (data[key].length / monthcount).toFixed(2),
       };
     });
   }

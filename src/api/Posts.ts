@@ -1,6 +1,5 @@
 import moment from 'moment';
 import { AveragePostUser, AverageStatsMonth } from '../customTypes/AvergeStats';
-import { CountStats } from '../customTypes/CountStats';
 import { PostDTO } from '../customTypes/PostDTO';
 import { HttpResponse, RestClient } from '../util/RestClient';
 
@@ -14,12 +13,10 @@ export class Posts {
   public static MAX_PAGE_NO = 10;
 
   public async getPosts(token: string, pageNo: number): Promise<PostDTO[]> {
-    console.log('token' + token);
     const urlParam: Map<string, any> = new Map();
     urlParam.set(Posts.SL_TOKEN, token);
     urlParam.set(Posts.PAGE, pageNo);
     const request: string = RestClient.createGetUrl(Posts.FETCH_POSTS_URL, urlParam);
-    console.log(request);
     const results: HttpResponse<any> = await RestClient.makeRequest(request);
     const postResults: PostDTO[] = results.parsedBody.data.posts;
     if (pageNo <= Posts.MAX_PAGE_NO) {
@@ -35,7 +32,7 @@ export class Posts {
     return m[postDate.getMonth()];
   }
 
-  public getGroupedByMonth(data: PostDTO[], byType: string): { [key: string]: PostDTO[] } {
+  public getGroupedByType(data: PostDTO[], byType: string): { [key: string]: PostDTO[] } {
     return data.reduce((m, d) => {
       let keyValue = '';
       if (byType == Posts.USER) {
@@ -54,7 +51,7 @@ export class Posts {
     return moment(d).week();
   }
 
-  public getTotalByKeyValue(data: PostDTO[], byType: string): any {
+  public getTotalByType(data: PostDTO[], byType: string): any {
     return data.reduce((m, d) => {
       let key = 0;
       if (byType == Posts.WEEK) {
@@ -67,31 +64,29 @@ export class Posts {
 
   public getAverageStatsByMonth(groupData: { [key: string]: PostDTO[] }): AverageStatsMonth[] {
     return Object.keys(groupData).map(key => {
-      const stats: AverageStatsMonth = {
+      return {
         month: key,
-        averageMessage:
+        averageMessage: (
           groupData[key].reduce((sum: number, currentObj: PostDTO) => {
             return sum + currentObj.message.length;
-          }, 0) / groupData[key].length,
+          }, 0) / groupData[key].length
+        ).toFixed(2),
         longestPost: groupData[key].reduce((longest: number, currentObj: PostDTO) => {
           if (longest < currentObj.message.length) {
             longest = currentObj.message.length;
           }
           return longest;
         }, 0),
-        averageUserPost: this.getAverageUserStats(this.getGroupedByMonth(groupData[key], Posts.USER)),
       };
-      return stats;
     });
   }
 
-  public getAverageUserStats(data: { [key: string]: PostDTO[] }): AveragePostUser[] {
+  public getAverageUserPosts(data: { [key: string]: PostDTO[] }, monthcount: number): AveragePostUser[] {
     return Object.keys(data).map(key => {
-      const stats: AveragePostUser = {
+      return {
         user: key,
-        postCount: data[key].length,
+        averagePosts: (data[key].length / monthcount).toFixed(),
       };
-      return stats;
     });
   }
 }

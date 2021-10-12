@@ -1,10 +1,10 @@
 export interface AverageStatsMonth {
   month: string;
-  averageMessage: number;
+  averageMessage: string;
   longestPost: number;
-  averageUserPost: AveragePostUser[];
 }
+
 export interface AveragePostUser {
   user: string;
-  postCount: number;
+  averagePosts: string;
 }
